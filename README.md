@@ -110,7 +110,7 @@ cd Notes-Application
 ```bash
 cd backend
 npm install
-npm start
+npm run dev
 ```
 
 ### 3️⃣ Frontend Setup
