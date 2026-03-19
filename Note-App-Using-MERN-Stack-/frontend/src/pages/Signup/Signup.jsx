@@ -1,63 +1,63 @@
-import React, { useState } from "react"
-import PasswordInput from "../../components/Input/PasswordInput"
-import { Link, useNavigate } from "react-router-dom"
-import { validateEmail } from "../../utils/helper"
-import axios from "axios"
-import { toast } from "react-toastify"
+import React, { useState } from "react";
+import PasswordInput from "../../components/Input/PasswordInput";
+import { Link, useNavigate } from "react-router-dom";
+import { validateEmail } from "../../utils/helper";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Signup = () => {
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!name) {
-      setError("Please enter your name")
-      return
+      setError("Please enter your name");
+      return;
     }
 
     if (!validateEmail(email)) {
-      setError("Please enter a valid email address")
-      return
+      setError("Please enter a valid email address");
+      return;
     }
 
     if (!password) {
-      setError("Please enter the password")
-      return
+      setError("Please enter the password");
+      return;
     }
 
-    setError("")
+    setError("");
 
     // sign up api
     try {
       const res = await axios.post(
         "http://localhost:3000/api/auth/signup",
         { username: name, email, password },
-        { withCredentials: true }
-      )
+        { withCredentials: true },
+      );
 
       if (res.data.success === false) {
-        setError(res.data.message)
-        toast.error(res.data.message)
-        return
+        setError(res.data.message);
+        toast.error(res.data.message);
+        return;
       }
 
-      toast.success(res.data.message)
+      toast.success(res.data.message);
 
-      setError("")
+      setError("");
 
-      navigate("/login")
+      navigate("/login");
     } catch (error) {
-      toast.error(error.message)
-      console.log(error.message)
-      setError(error.message)
+      toast.error(error.message);
+      console.log(error.message);
+      setError(error.message);
     }
-  }
+  };
 
   return (
     <>
@@ -106,7 +106,7 @@ const Signup = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Signup
+export default Signup;

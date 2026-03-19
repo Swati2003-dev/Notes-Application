@@ -1,27 +1,31 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit"
-import userReducer from "./user/userSlice"
-import { persistReducer, persistStore } from "redux-persist"
-import storage from "redux-persist/lib/storage"
+// to store user data in localStorage so it doesn't disappear after page refresh.
 
-const rootReducer = combineReducers({
-  user: userReducer,
-})
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import userReducer from "./user/userSlice";
+import { persistReducer } from "redux-persist";
+import { version } from "react";
+import storage from "redux-persist/lib/storage";
+import persistStore from "redux-persist/es/persistStore";
 
 const persistConfig = {
   key: "root",
   storage,
   version: 1,
-}
+};
+const rootReducer = combineReducers({
+  user: userReducer,
+});
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 export const store = configureStore({
   reducer: persistedReducer,
-  // to prevent possible errors
+
+  //to prevent possible errors
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
     }),
-})
+});
 
-export const persistor = persistStore(store)
+export const persistor=persistStore(store)

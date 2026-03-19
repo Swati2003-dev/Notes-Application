@@ -1,172 +1,228 @@
-import Note from "../models/note.model.js"
-import { errorHandler } from "../utils/error.js"
+import Note from "../models/note.model.js";
+import User from "../models/user.model.js"; //*
+import { errorHandler } from "../utils/error.js";
 
 export const addNote = async (req, res, next) => {
-  const { title, content, tags } = req.body
+  const { title, content, tags, category, reminderAt } = req.body; //*
 
-  const { id } = req.user
+  const { id } = req.user;
 
   if (!title) {
-    return next(errorHandler(400, "Title is required"))
+    return next(errorHandler(400, "Title is required"));
   }
-
   if (!content) {
-    return next(errorHandler(400, "Content is required"))
+    return next(errorHandler(400, "Content is required"));
   }
 
   try {
     const note = new Note({
       title,
       content,
+      category: category || "General", //*
+      reminderAt: reminderAt || null, //*
       tags: tags || [],
       userId: id,
-    })
-
-    await note.save()
+    });
+    await note.save();
 
     res.status(201).json({
       success: true,
-      message: "Note added successfully",
+      message: "Note Added Successfuly",
       note,
-    })
+    });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
 
 export const editNote = async (req, res, next) => {
-  const note = await Note.findById(req.params.noteId)
+  const note = await Note.findById(req.params.noteId);
 
   if (!note) {
-    return next(errorHandler(404, "Note not found"))
+    return next(errorHandler(404, "Note not found"));
+  }
+  if (req.user.id !== note.userId.toString() && !note.collaborators.includes(req.user.id)) { //*
+    return next(errorHandler(401, "You are not an owner or collaborator of this note!")); //*
   }
 
-  if (req.user.id !== note.userId) {
-    return next(errorHandler(401, "You can only update your own note!"))
-  }
+  const { title, content, tags, isPinned, category, reminderAt } = req.body; //*
 
-  const { title, content, tags, isPinned } = req.body
-
-  if (!title && !content && !tags) {
-    return next(errorHandler(404, "No changes provided"))
+  if (!title && !content && !tags && !category && reminderAt === undefined) { //*
+    return next(errorHandler(404, "No changes provided "));
   }
 
   try {
     if (title) {
-      note.title = title
+      note.title = title;
     }
-
     if (content) {
-      note.content = content
+      note.content = content;
     }
-
     if (tags) {
-      note.tags = tags
+      note.tags = tags;
     }
-
-    if (isPinned) {
-      note.isPinned = isPinned
+    if (isPinned !== undefined) { //* using undefined check for booleans
+      note.isPinned = isPinned;
     }
-
-    await note.save()
+    if (category) { //*
+      note.category = category; //*
+    } //*
+    if (reminderAt !== undefined) { //*
+      note.reminderAt = reminderAt; //*
+    } //*
+    await note.save();
 
     res.status(200).json({
       success: true,
       message: "Note updated successfully",
       note,
-    })
+    });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
 
 export const getAllNotes = async (req, res, next) => {
-  const userId = req.user.id
+  const userId = req.user.id;
+  const { category, tag } = req.query; //*
 
   try {
-    const notes = await Note.find({ userId: userId }).sort({ isPinned: -1 })
+    const filter = { 
+      $or: [ { userId: userId }, { collaborators: userId } ] //* 
+    }; 
+    if (category) { //*
+      filter.category = category; //*
+    } //*
+    if (tag) { //*
+      filter.tags = tag; //*
+    } //*
 
+    const notes = await Note.find(filter).sort({ isPinned: -1 }); //*
     res.status(200).json({
       success: true,
       message: "All notes retrived successfully",
       notes,
-    })
+    });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
 
 export const deleteNote = async (req, res, next) => {
-  const noteId = req.params.noteId
+  const noteId = req.params.noteId;
 
-  const note = await Note.findOne({ _id: noteId, userId: req.user.id })
+  const note = await Note.findOne({ _id: noteId, userId: req.user.id });
 
   if (!note) {
-    return next(errorHandler(404, "Note not found"))
+    return next(errorHandler(404, "Note not found"));
   }
-
   try {
-    await Note.deleteOne({ _id: noteId, userId: req.user.id })
+    await Note.deleteOne({ _id: noteId, userId: req.user.id });
 
     res.status(200).json({
       success: true,
-      message: "Note deleted successfully",
-    })
+      message: "Note deleted Successfully",
+    });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
 
 export const updateNotePinned = async (req, res, next) => {
+  const noteId = req.params.noteId;
   try {
-    const note = await Note.findById(req.params.noteId)
-
+    const note = await Note.findById(noteId);
     if (!note) {
-      return next(errorHandler(404, "Note not found!"))
+      return next(errorHandler(404, "Note not found!"));
     }
 
-    if (req.user.id !== note.userId) {
-      return next(errorHandler(401, "You can only update your own note!"))
-    }
+    if (req.user.id !== note.userId.toString() && !note.collaborators.includes(req.user.id)) { //*
+      return next(errorHandler(401, "You can only update notes you own or collaborate on!")); //*
+    } //*
+    const { isPinned } = req.body;
 
-    const { isPinned } = req.body
+    note.isPinned = isPinned;
 
-    note.isPinned = isPinned
-
-    await note.save()
+    await note.save();
 
     res.status(200).json({
       success: true,
       message: "Note updated successfully",
       note,
-    })
+    });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
+
+export const shareNote = async (req, res, next) => { //*
+  const noteId = req.params.noteId; //*
+  const { email } = req.body; //*
+
+  if (!email) { //*
+    return next(errorHandler(400, "Email is required to share a note")); //*
+  } //*
+
+  try { //*
+    const note = await Note.findById(noteId); //*
+    if (!note) { //*
+      return next(errorHandler(404, "Note not found")); //*
+    } //*
+
+    // Only owner can share //*
+    if (req.user.id !== note.userId.toString()) { //*
+      return next(errorHandler(401, "Only the owner can share this note!")); //*
+    } //*
+
+    const targetUser = await User.findOne({ email: { $regex: new RegExp(`^${email.trim()}$`, "i") } }); //*
+    if (!targetUser) { //*
+      return next(errorHandler(404, "User with this email does not exist.")); //*
+    } //*
+
+    if (note.userId.toString() === targetUser._id.toString()) { //*
+      return next(errorHandler(400, "You cannot share a note with yourself.")); //*
+    } //*
+
+    if (note.collaborators.includes(targetUser._id.toString())) { //*
+      return next(errorHandler(400, "User is already a collaborator.")); //*
+    } //*
+
+    note.collaborators.push(targetUser._id.toString()); //*
+    await note.save(); //*
+
+    res.status(200).json({ //*
+      success: true, //*
+      message: "Note shared successfully", //*
+      note, //*
+    }); //*
+  } catch (error) { //*
+    next(error); //*
+  } //*
+}; //*
 
 export const searchNote = async (req, res, next) => {
-  const { query } = req.query
+  const { query } = req.query;
 
   if (!query) {
-    return next(errorHandler(400, "Search query is required"))
+    return next(errorHandler(400, "Search query is required"));
   }
-
   try {
     const matchingNotes = await Note.find({
-      userId: req.user.id,
-      $or: [
-        { title: { $regex: new RegExp(query, "i") } },
-        { content: { $regex: new RegExp(query, "i") } },
-      ],
-    })
-
+      $and: [ //*
+        { $or: [{ userId: req.user.id }, { collaborators: req.user.id }] }, //*
+        { $or: [ //*
+            { title: { $regex: new RegExp(query, "i") } }, //*
+            { content: { $regex: new RegExp(query, "i") } }, //*
+          ] //*
+        } //*
+      ] //*
+    });
     res.status(200).json({
       success: true,
-      message: "Notes matching the search query retrieved successfully",
+      message: "Notes matching the search query retrived successfully",
       notes: matchingNotes,
-    })
+    });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
