@@ -70,6 +70,7 @@ Tailwind CSS / Vanilla CSS: Used for writing styles quickly. Instead of writing 
 ### 🔐 Authentication
 - User Registration
 - Secure Login System
+- Password Recovery (Forgot/Reset Password via Email)
 - Protected Routes (JWT-based)
 
 ### 🗂 CRUD Operations
@@ -180,9 +181,13 @@ npm run dev
 
 Create a `.env` file inside the backend folder:
 
-```
+```env
 MONGO_URL=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
+EMAIL_SERVICE=Gmail
+EMAIL_USERNAME=your_email@gmail.com
+EMAIL_PASSWORD=your_google_app_password
+FRONTEND_URL=http://localhost:5173
 ```
 
 ---
@@ -251,7 +256,7 @@ Create routes folder
 Create controllers
 Register API
 Login API
-
+Forgot & Reset Password APIs (crypto & nodemailer)
 Protect routes
 
 * This person doesn’t need frontend video.
@@ -271,6 +276,7 @@ Routing
 
 Login page
 Register page
+Forgot/Reset Password pages
 Dashboard page
 Navbar
 CSS
@@ -292,5 +298,9 @@ Form submission logic
 
 Connect login form to backend
 Connect register form
+Connect forgot/reset password flow
 Store token
 Test full flow
+
+# bcryptjs = Heavy, permanent security for User Passwords.
+# crypto = Fast, temporary security for Email Reset Tokens.
