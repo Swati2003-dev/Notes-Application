@@ -26,7 +26,11 @@ const PasswordInput = ({ value, onChange, placeholder }) => {
           onClick={() => toggleShowPassword()}
         />
       ) : (
-        <FaRegEyeSlash size={22} className="text-slate-400 cursor-pointer" />
+        <FaRegEyeSlash
+          size={22}
+          className="text-slate-400 cursor-pointer"
+          onClick={() => toggleShowPassword()}
+        />
       )}
     </div>
   );

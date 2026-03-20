@@ -13,6 +13,8 @@ import mongoose from "mongoose";
         type:String,
         required:true,
     },
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
     createdAt:{
         type:Date,
         default:Date.now(),
