@@ -47,7 +47,7 @@ const Home = () => {
   //get all notes
   const getAllNotes = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/note/all", {
+      const res = await axios.get((import.meta.env.VITE_BACKEND_URL || "http://localhost:3000") + "/api/note/all", {
         params: filterParams, //* pass the filters to backend
         withCredentials: true,
       });
@@ -77,7 +77,7 @@ const Home = () => {
 
     try {
       const res = await axios.delete(
-        "http://localhost:3000/api/note/delete/" + noteId,
+        (import.meta.env.VITE_BACKEND_URL || "http://localhost:3000") + "/api/note/delete/" + noteId,
         { withCredentials: true },
       );
 
@@ -93,7 +93,7 @@ const Home = () => {
   };
   const onSearchNote = async (query) => {
     try {
-      const res = await axios.get("http://localhost:3000/api/note/search", {
+      const res = await axios.get((import.meta.env.VITE_BACKEND_URL || "http://localhost:3000") + "/api/note/search", {
         params: { query },
         withCredentials: true,
       });
@@ -118,7 +118,7 @@ const Home = () => {
 
     try {
       const res = await axios.put(
-        "http://localhost:3000/api/note/update-note-pinned/" + noteId,
+        (import.meta.env.VITE_BACKEND_URL || "http://localhost:3000") + "/api/note/update-note-pinned/" + noteId,
         { isPinned: !noteData.isPinned },
         { withCredentials: true },
       );

@@ -41,6 +41,9 @@ export const signin=async(req,res,next)=>{
     if(!validUser){
       return next(errorHandler(404,"User not found"))
     }
+    if(!validUser.password){
+      return next(errorHandler(400,"Password not set for this account. Please use 'Forgot Password' to set one."))
+    }
     const validPassword=bcryptjs.compareSync(password,validUser.password)
 
     if(!validPassword){

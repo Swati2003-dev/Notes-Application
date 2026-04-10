@@ -78,7 +78,7 @@ const ReminderTracker = ({ notes, getAllNotes }) => {
       snoozeTime.setMinutes(snoozeTime.getMinutes() + 5); 
 
       await axios.post( 
-        `http://localhost:3000/api/note/edit/${note._id}`, 
+        `${import.meta.env.VITE_BACKEND_URL || "http://localhost:3000"}/api/note/edit/${note._id}`, 
         { reminderAt: snoozeTime.toISOString() }, 
         { withCredentials: true } 
       ); 

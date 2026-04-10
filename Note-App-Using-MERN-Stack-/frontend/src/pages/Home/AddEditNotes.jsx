@@ -22,7 +22,7 @@ const AddEditNotes = ({ onClose, noteData, type, getAllNotes }) => {
   useEffect(() => { //*
     if (type !== "edit" || !noteData?._id) return; //* Only sync existing notes
 
-    socketRef.current = io("http://localhost:3000", { 
+    socketRef.current = io((import.meta.env.VITE_BACKEND_URL || "http://localhost:3000") + "", { 
       forceNew: true, 
       withCredentials: true,
       transports: ["websocket"] //*
@@ -59,7 +59,7 @@ const AddEditNotes = ({ onClose, noteData, type, getAllNotes }) => {
     if (type !== "edit" || !noteData?._id) return; //*
     try { //*
       await axios.post( //*
-        `http://localhost:3000/api/note/edit/${noteData._id}`, //*
+        `${import.meta.env.VITE_BACKEND_URL || "http://localhost:3000"}/api/note/edit/${noteData._id}`, //*
         { title: currentTitle, content: currentContent, tags, category, reminderAt }, //*
         { withCredentials: true } //*
       ); //*
@@ -88,7 +88,7 @@ const AddEditNotes = ({ onClose, noteData, type, getAllNotes }) => {
     const noteId = noteData._id;
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/note/edit/" + noteId,
+        (import.meta.env.VITE_BACKEND_URL || "http://localhost:3000") + "/api/note/edit/" + noteId,
         { title, content, tags, category, reminderAt }, //*
         { withCredentials: true },
       );
@@ -110,7 +110,7 @@ const AddEditNotes = ({ onClose, noteData, type, getAllNotes }) => {
   const addNewNote = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/note/add",
+        (import.meta.env.VITE_BACKEND_URL || "http://localhost:3000") + "/api/note/add",
         { title, content, tags, category, reminderAt }, //*
         { withCredentials: true },
       );

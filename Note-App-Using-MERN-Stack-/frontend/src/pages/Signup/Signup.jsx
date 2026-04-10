@@ -36,7 +36,7 @@ const Signup = () => {
     // sign up api
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/auth/signup",
+        (import.meta.env.VITE_BACKEND_URL || "http://localhost:3000") + "/api/auth/signup",
         { username: name, email, password },
         { withCredentials: true },
       );
@@ -53,9 +53,10 @@ const Signup = () => {
 
       navigate("/login");
     } catch (error) {
-      toast.error(error.message);
-      console.log(error.message);
-      setError(error.message);
+      const errorMsg = error.response?.data?.message || error.message;
+      toast.error(errorMsg);
+      console.log(errorMsg);
+      setError(errorMsg);
     }
   };
 

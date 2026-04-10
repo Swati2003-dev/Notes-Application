@@ -8,7 +8,7 @@ import cors from "cors";
 
 dotenv.config();
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URI, { family: 4 })
   .then(() => {
     console.log("Connected to mongoDB");
   })
@@ -21,7 +21,7 @@ const app = express();
 //to make  input as json
 app.use(express.json()); // Reads JSON data from request body
 app.use(cookieParser()); // Reads cookies from browser
-app.use(cors({ origin: ["http://localhost:5173"],credentials:true })); // Allows frontend and backend to communicate
+app.use(cors({ origin: [process.env.FRONTEND_URL || "http://localhost:5173"], credentials:true })); // Allows frontend and backend to communicate
 
 const server = http.createServer(app); //*
 const io = new Server(server, { cors: { origin: "http://localhost:5173", credentials: true } }); //*
@@ -43,9 +43,14 @@ io.on("connection", (socket) => { //*
   }); //*
 }); //*
 
-server.listen(3000, () => { //*
-  console.log("Server is running");
-});
+// server.listen(3000, () => { 
+//   console.log("Server is running");
+// });
+
+const PORT=process.env.PORT || 3000;
+server.listen(PORT,()=>{
+  console.log(`Server is running on port ${PORT}`)
+})
 
 //import routes
 import authRouter from "./routes/auth.route.js";

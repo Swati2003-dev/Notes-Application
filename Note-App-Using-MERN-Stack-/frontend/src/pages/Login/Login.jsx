@@ -38,7 +38,7 @@ const Login = () => {
       dispatch(signInStart());
 
       const res = await axios.post(
-        "http://localhost:3000/api/auth/signin",
+        (import.meta.env.VITE_BACKEND_URL || "http://localhost:3000") + "/api/auth/signin",
         {
           email,
           password,
@@ -56,8 +56,9 @@ const Login = () => {
       dispatch(signInSuccess(res.data.user));
       navigate("/");
     } catch (error) {
-      toast.error(error.message);
-      dispatch(signInFailure(error.message));
+      const errorMsg = error.response?.data?.message || error.message;
+      toast.error(errorMsg);
+      dispatch(signInFailure(errorMsg));
     }
   };
 
