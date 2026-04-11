@@ -52,7 +52,7 @@ export const signin=async(req,res,next)=>{
     const token=jwt.sign({id:validUser._id},process.env.JWT_SECRET)
     const {password:pass,...userData}=validUser._doc
 
-    res.cookie("access_token",token,{httpOnly:true}).status(200).json({
+    res.cookie("access_token",token,{httpOnly:true, secure: true, sameSite: "none"}).status(200).json({
       success:true,
       message:"Login Successfull",
       user: userData
@@ -65,7 +65,7 @@ export const signin=async(req,res,next)=>{
 
 export const signout=async(req,res,next)=>{
   try{
-    res.clearCookie("access_token")
+    res.clearCookie("access_token", {httpOnly: true, secure: true, sameSite: "none"})
 
     res.status(200).json({
       success:true,
