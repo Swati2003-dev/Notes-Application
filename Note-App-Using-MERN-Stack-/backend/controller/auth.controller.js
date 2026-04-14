@@ -128,6 +128,7 @@ export const forgotPassword = async (req, res, next) => {
       user.resetPasswordToken = undefined;
       user.resetPasswordExpires = undefined;
       await user.save();
+      console.error("NODEMAILER ERROR:", err);
       return next(errorHandler(500, "There was an error sending the email. Try again later!"));
     }
 
