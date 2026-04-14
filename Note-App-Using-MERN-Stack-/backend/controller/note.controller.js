@@ -1,9 +1,9 @@
 import Note from "../models/note.model.js";
-import User from "../models/user.model.js"; //*
+import User from "../models/user.model.js"; 
 import { errorHandler } from "../utils/error.js";
 
 export const addNote = async (req, res, next) => {
-  const { title, content, tags, category, reminderAt } = req.body; //*
+  const { title, content, tags, category, reminderAt } = req.body; 
 
   const { id } = req.user;
 
@@ -18,8 +18,8 @@ export const addNote = async (req, res, next) => {
     const note = new Note({
       title,
       content,
-      category: category || "General", //*
-      reminderAt: reminderAt || null, //*
+      category: category || "General", 
+      reminderAt: reminderAt || null, 
       tags: tags || [],
       userId: id,
     });
@@ -41,13 +41,13 @@ export const editNote = async (req, res, next) => {
   if (!note) {
     return next(errorHandler(404, "Note not found"));
   }
-  if (req.user.id !== note.userId.toString() && !note.collaborators.includes(req.user.id)) { //*
-    return next(errorHandler(401, "You are not an owner or collaborator of this note!")); //*
+  if (req.user.id !== note.userId.toString() && !note.collaborators.includes(req.user.id)) { 
+    return next(errorHandler(401, "You are not an owner or collaborator of this note!")); 
   }
 
-  const { title, content, tags, isPinned, category, reminderAt } = req.body; //*
+  const { title, content, tags, isPinned, category, reminderAt } = req.body; 
 
-  if (!title && !content && !tags && !category && reminderAt === undefined) { //*
+  if (!title && !content && !tags && !category && reminderAt === undefined) { 
     return next(errorHandler(404, "No changes provided "));
   }
 
@@ -61,15 +61,15 @@ export const editNote = async (req, res, next) => {
     if (tags) {
       note.tags = tags;
     }
-    if (isPinned !== undefined) { //* using undefined check for booleans
+    if (isPinned !== undefined) {  //using undefined check for booleans
       note.isPinned = isPinned;
     }
-    if (category) { //*
-      note.category = category; //*
-    } //*
-    if (reminderAt !== undefined) { //*
-      note.reminderAt = reminderAt; //*
-    } //*
+    if (category) { 
+      note.category = category; 
+    } 
+    if (reminderAt !== undefined) { 
+      note.reminderAt = reminderAt; 
+    } 
     await note.save();
 
     res.status(200).json({
@@ -84,20 +84,20 @@ export const editNote = async (req, res, next) => {
 
 export const getAllNotes = async (req, res, next) => {
   const userId = req.user.id;
-  const { category, tag } = req.query; //*
+  const { category, tag } = req.query; 
 
   try {
     const filter = { 
-      $or: [ { userId: userId }, { collaborators: userId } ] //* 
+      $or: [ { userId: userId }, { collaborators: userId } ]  
     }; 
-    if (category) { //*
-      filter.category = category; //*
-    } //*
-    if (tag) { //*
-      filter.tags = tag; //*
-    } //*
+    if (category) { 
+      filter.category = category; 
+    } 
+    if (tag) { 
+      filter.tags = tag; 
+    } 
 
-    const notes = await Note.find(filter).sort({ isPinned: -1 }); //*
+    const notes = await Note.find(filter).sort({ isPinned: -1 }); 
     res.status(200).json({
       success: true,
       message: "All notes retrived successfully",
@@ -136,8 +136,8 @@ export const updateNotePinned = async (req, res, next) => {
       return next(errorHandler(404, "Note not found!"));
     }
 
-    if (req.user.id !== note.userId.toString() && !note.collaborators.includes(req.user.id)) { //*
-      return next(errorHandler(401, "You can only update notes you own or collaborate on!")); //*
+    if (req.user.id !== note.userId.toString() && !note.collaborators.includes(req.user.id)) { 
+      return next(errorHandler(401, "You can only update notes you own or collaborate on!")); 
     } //*
     const { isPinned } = req.body;
 
@@ -155,50 +155,50 @@ export const updateNotePinned = async (req, res, next) => {
   }
 };
 
-export const shareNote = async (req, res, next) => { //*
-  const noteId = req.params.noteId; //*
-  const { email } = req.body; //*
+export const shareNote = async (req, res, next) => { 
+  const noteId = req.params.noteId; 
+  const { email } = req.body; 
 
-  if (!email) { //*
-    return next(errorHandler(400, "Email is required to share a note")); //*
-  } //*
+  if (!email) { 
+    return next(errorHandler(400, "Email is required to share a note")); 
+  } 
 
-  try { //*
-    const note = await Note.findById(noteId); //*
-    if (!note) { //*
-      return next(errorHandler(404, "Note not found")); //*
-    } //*
+  try { 
+    const note = await Note.findById(noteId); 
+    if (!note) { 
+      return next(errorHandler(404, "Note not found")); 
+    } 
 
-    // Only owner can share //*
-    if (req.user.id !== note.userId.toString()) { //*
-      return next(errorHandler(401, "Only the owner can share this note!")); //*
-    } //*
+    // Only owner can share 
+    if (req.user.id !== note.userId.toString()) { 
+      return next(errorHandler(401, "Only the owner can share this note!")); 
+    } 
 
-    const targetUser = await User.findOne({ email: { $regex: new RegExp(`^${email.trim()}$`, "i") } }); //*
-    if (!targetUser) { //*
-      return next(errorHandler(404, "User with this email does not exist.")); //*
-    } //*
+    const targetUser = await User.findOne({ email: { $regex: new RegExp(`^${email.trim()}$`, "i") } }); 
+    if (!targetUser) { 
+      return next(errorHandler(404, "User with this email does not exist.")); 
+    } 
 
-    if (note.userId.toString() === targetUser._id.toString()) { //*
-      return next(errorHandler(400, "You cannot share a note with yourself.")); //*
-    } //*
+    if (note.userId.toString() === targetUser._id.toString()) { 
+      return next(errorHandler(400, "You cannot share a note with yourself.")); 
+    } 
 
-    if (note.collaborators.includes(targetUser._id.toString())) { //*
-      return next(errorHandler(400, "User is already a collaborator.")); //*
-    } //*
+    if (note.collaborators.includes(targetUser._id.toString())) { 
+      return next(errorHandler(400, "User is already a collaborator.")); 
+    } 
 
-    note.collaborators.push(targetUser._id.toString()); //*
-    await note.save(); //*
+    note.collaborators.push(targetUser._id.toString()); 
+    await note.save(); 
 
-    res.status(200).json({ //*
-      success: true, //*
-      message: "Note shared successfully", //*
-      note, //*
-    }); //*
-  } catch (error) { //*
-    next(error); //*
-  } //*
-}; //*
+    res.status(200).json({ 
+      success: true, 
+      message: "Note shared successfully", 
+      note, 
+    }); 
+  } catch (error) { 
+    next(error); 
+  } 
+}; 
 
 export const searchNote = async (req, res, next) => {
   const { query } = req.query;
@@ -208,14 +208,14 @@ export const searchNote = async (req, res, next) => {
   }
   try {
     const matchingNotes = await Note.find({
-      $and: [ //*
-        { $or: [{ userId: req.user.id }, { collaborators: req.user.id }] }, //*
-        { $or: [ //*
-            { title: { $regex: new RegExp(query, "i") } }, //*
-            { content: { $regex: new RegExp(query, "i") } }, //*
-          ] //*
-        } //*
-      ] //*
+      $and: [ 
+        { $or: [{ userId: req.user.id }, { collaborators: req.user.id }] }, 
+        { $or: [ 
+            { title: { $regex: new RegExp(query, "i") } }, 
+            { content: { $regex: new RegExp(query, "i") } }, 
+          ] 
+        } 
+      ] 
     });
     res.status(200).json({
       success: true,
