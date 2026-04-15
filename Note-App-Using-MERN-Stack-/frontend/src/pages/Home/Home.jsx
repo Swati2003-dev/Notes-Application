@@ -249,8 +249,8 @@ const Home = () => {
         style={{ //*
           overlay: { backgroundColor: "rgba(0,0,0,0.5)" }, //*
         }} //*
-        contentLabel="" //*
-        className="w-[40%] max-md:w-[60%] max-sm:w-[70%] max-h-3/4 bg-white dark:bg-slate-800 rounded-md mx-auto mt-14 p-5 overflow-scroll transition-colors duration-300" //*
+        contentLabel="" 
+        className="w-[40%] max-md:w-[60%] max-sm:w-[70%] max-h-[85vh] bg-white dark:bg-slate-800 rounded-md mx-auto mt-14 p-5 overflow-y-auto transition-colors duration-300 outline-none" //*
       > 
         <ShareNoteModal //*
           noteData={openShareModal.data} //*
@@ -268,7 +268,7 @@ const Home = () => {
           },
         }}
         contentLabel=""
-        className="w-[40%] max-md:w-[60%] max-sm:w-[70%] max-h-3/4 bg-white dark:bg-slate-800 rounded-md mx-auto mt-14 p-5 overflow-scroll transition-colors duration-300" //*
+        className="w-[40%] max-md:w-[60%] max-sm:w-[70%] max-h-[85vh] mx-auto mt-14 p-5 overflow-y-auto outline-none no-scrollbar" //*
       >
         <AddEditNotes
           onClose={() =>
