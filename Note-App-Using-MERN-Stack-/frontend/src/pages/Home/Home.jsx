@@ -10,8 +10,8 @@ import Navbar from "../../components/Navbar";
 import axios from "axios";
 import { toast } from "react-toastify";
 import EmptyCard from "../../components/EmptyCard/EmptyCard";
-import ReminderTracker from "../../components/ReminderTracker"; //*
-import ShareNoteModal from "../../components/ShareNoteModal"; //*
+import ReminderTracker from "../../components/ReminderTracker"; 
+import ShareNoteModal from "../../components/ShareNoteModal"; 
 
 const Home = () => {
   const { currentUser, loading, errorDispatch } = useSelector(
@@ -28,12 +28,12 @@ const Home = () => {
     type: "add",
     data: null,
   });
-  const [openShareModal, setOpenShareModal] = useState({ //*
-    isShown: false, //*
-    data: null, //*
-  }); //*
+  const [openShareModal, setOpenShareModal] = useState({ 
+    isShown: false, 
+    data: null, 
+  }); 
   const [isSearch, setIsSearch] = useState(false);
-  const [filterParams, setFilterParams] = useState({ tag: "", category: "" }); //*
+  const [filterParams, setFilterParams] = useState({ tag: "", category: "" }); 
 
   useEffect(() => {
     if (currentUser === null || !currentUser) {
@@ -67,9 +67,9 @@ const Home = () => {
     setOpenAddEditModel({ isShown: true, data: noteDetails, type: "edit" });
   };
 
-  const handleShare = (noteDetails) => { //*
-    setOpenShareModal({ isShown: true, data: noteDetails }); //*
-  }; //*
+  const handleShare = (noteDetails) => { 
+    setOpenShareModal({ isShown: true, data: noteDetails }); 
+  }; 
 
   //Delete  note
   const deleteNote = async (data) => {
@@ -135,18 +135,18 @@ const Home = () => {
     }
   };
 
-  const handleFilter = (type, value) => { //*
-    setFilterParams((prev) => ({ ...prev, [type]: value })); //*
+  const handleFilter = (type, value) => { 
+    setFilterParams((prev) => ({ ...prev, [type]: value })); 
     setIsSearch(false); //* clear search when using filters
-  }; //*
+  }; 
 
-  const clearFilters = () => { //*
-    setFilterParams({ tag: "", category: "" }); //*
-  }; //*
+  const clearFilters = () => { 
+    setFilterParams({ tag: "", category: "" }); 
+  }; 
 
   return (
     <>
-      <ReminderTracker notes={allNotes} getAllNotes={getAllNotes} /> {/* //* */}
+      <ReminderTracker notes={allNotes} getAllNotes={getAllNotes} /> {/*  */}
       <Navbar
         userInfo={userInfo}
         onSearchNote={onSearchNote}
@@ -163,7 +163,7 @@ const Home = () => {
               className={`px-5 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${ 
                 (filterParams.category === cat || (cat === "All" && !filterParams.category)) 
                   ? "bg-blue-600 text-white shadow-sm" 
-                  : "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700" //*
+                  : "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700" 
               }`} 
             > 
               {cat} 
@@ -201,15 +201,15 @@ const Home = () => {
                 content={note.content}
                 tags={note.tags}
                 isPinned={note.isPinned}
-                category={note.category} //*
-                reminderAt={note.reminderAt} //*
-                onFilter={handleFilter} //*
+                category={note.category} 
+                reminderAt={note.reminderAt} 
+                onFilter={handleFilter} 
                 onEdit={() => {
                   handleEdit(note);
                 }}
-                onShare={() => { //*
-                  handleShare(note); //*
-                }} //*
+                onShare={() => { 
+                  handleShare(note); 
+                }} 
                 onDelete={() => {
                   deleteNote(note);
                 }}
@@ -243,19 +243,19 @@ const Home = () => {
         <MdAdd className="text-[32px] text-white" />
       </button>
 
-      <Modal //*
-        isOpen={openShareModal.isShown} //*
-        onRequestClose={() => {}} //*
-        style={{ //*
-          overlay: { backgroundColor: "rgba(0,0,0,0.5)" }, //*
-        }} //*
+      <Modal 
+        isOpen={openShareModal.isShown} 
+        onRequestClose={() => {}} 
+        style={{ 
+          overlay: { backgroundColor: "rgba(0,0,0,0.5)" }, 
+        }} 
         contentLabel="" 
-        className="w-[40%] max-md:w-[60%] max-sm:w-[70%] max-h-[85vh] bg-white dark:bg-slate-800 rounded-md mx-auto mt-14 p-5 overflow-y-auto transition-colors duration-300 outline-none" //*
+        className="w-[40%] max-md:w-[60%] max-sm:w-[70%] max-h-[85vh] bg-white dark:bg-slate-800 rounded-md mx-auto mt-14 p-5 overflow-y-auto transition-colors duration-300 outline-none" 
       > 
-        <ShareNoteModal //*
-          noteData={openShareModal.data} //*
+        <ShareNoteModal 
+          noteData={openShareModal.data} 
           onClose={() => setOpenShareModal({ isShown: false, data: null })} //*
-          getAllNotes={getAllNotes} //*
+          getAllNotes={getAllNotes} 
         /> 
       </Modal> 
 

@@ -231,12 +231,10 @@ const Signup = () => {
             <label className="text-[11px] font-medium text-white/40 tracking-wide uppercase">
               Password
             </label>
-            <div className="[&_input]:bg-white/[0.05] [&_input]:border [&_input]:border-white/10 [&_input]:rounded-xl [&_input]:px-4 [&_input]:py-3 [&_input]:text-sm [&_input]:text-white/90 [&_input]:placeholder:text-white/25 [&_input]:outline-none [&_input]:transition-all [&_input]:w-full [&_input]:focus:border-indigo-500/60 [&_input]:focus:ring-2 [&_input]:focus:ring-indigo-500/20 [&_input]:focus:bg-indigo-500/[0.06]">
-              <PasswordInput
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
+            <PasswordInput
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
 
           {/* Error */}
