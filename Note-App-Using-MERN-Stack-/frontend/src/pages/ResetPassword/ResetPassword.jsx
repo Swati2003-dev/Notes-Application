@@ -9,7 +9,7 @@
 //   const [confirmPassword, setConfirmPassword] = useState("");
 //   const [error, setError] = useState("");
 //   const [loading, setLoading] = useState(false);
-  
+
 //   const navigate = useNavigate();
 //   const { token } = useParams();
 
@@ -41,14 +41,14 @@
 //         setLoading(false);
 //         return;
 //       }
-      
+
 //       toast.success(res.data.message || "Password resetted successfully!");
 //       setLoading(false);
-      
+
 //       setTimeout(() => {
 //         navigate("/login");
 //       }, 2000);
-      
+
 //     } catch (error) {
 //       const errorMsg = error.response?.data?.message || "Link has expired or is invalid.";
 //       toast.error(errorMsg);
@@ -71,7 +71,7 @@
 //             onChange={(e) => setPassword(e.target.value)}
 //             placeholder="New Password"
 //           />
-          
+
 //           <PasswordInput
 //             value={confirmPassword}
 //             onChange={(e) => setConfirmPassword(e.target.value)}
@@ -95,7 +95,6 @@
 // };
 
 // export default ResetPassword;
-
 
 //------------------------------------------------------------------------------------------
 
@@ -133,7 +132,7 @@ const ResetPassword = () => {
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL || "http://localhost:3000"}/api/auth/reset-password/${token}`,
         { password },
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       if (res.data.success === false) {
@@ -160,18 +159,27 @@ const ResetPassword = () => {
 
   return (
     <div className="min-h-screen bg-[#09090f] flex items-center justify-center px-4 relative overflow-hidden">
-
       {/* Ambient glow orbs */}
       <div className="absolute top-[-120px] right-[-80px] w-[420px] h-[420px] rounded-full bg-purple-600/20 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-80px] left-[-80px] w-[360px] h-[360px] rounded-full bg-indigo-500/15 blur-[100px] pointer-events-none" />
 
       {/* Card */}
       <div className="relative z-10 w-full max-w-md bg-white/[0.04] border border-white/[0.08] rounded-2xl px-10 py-12 shadow-[0_32px_80px_rgba(0,0,0,0.6)] backdrop-blur-xl">
-
         {/* Icon */}
         <div className="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-6">
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-5 h-5 text-purple-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={1.8}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z"
+            />
           </svg>
         </div>
 
@@ -186,11 +194,11 @@ const ResetPassword = () => {
           </span>
         </h4>
         <p className="text-sm text-white/35 mb-8 leading-relaxed">
-          Please enter your new password below. Make sure it's strong and memorable.
+          Please enter your new password below. Make sure it's strong and
+          memorable.
         </p>
 
         <form onSubmit={handleResetPassword} className="flex flex-col gap-4">
-
           {/* New Password */}
           <div className="flex flex-col gap-1.5">
             <label className="text-[11px] font-medium text-white/40 tracking-wide uppercase">
@@ -234,9 +242,25 @@ const ResetPassword = () => {
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">
-                <svg className="animate-spin w-4 h-4 text-white/70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                <svg
+                  className="animate-spin w-4 h-4 text-white/70"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v8z"
+                  />
                 </svg>
                 Resetting...
               </span>
@@ -257,7 +281,6 @@ const ResetPassword = () => {
               ← Back to Sign in
             </Link>
           </p>
-
         </form>
       </div>
     </div>
