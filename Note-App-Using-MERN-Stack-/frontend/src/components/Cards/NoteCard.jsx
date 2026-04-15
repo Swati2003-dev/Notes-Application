@@ -7,27 +7,27 @@ const NoteCard = ({
   content,
   onEdit,
   onDelete,
-  onShare, //*
+  onShare, 
   tags,
   title,
   date,
-  category, //*
-  reminderAt, //*
-  onFilter, //*
+  category, 
+  reminderAt, 
+  onFilter, 
 }) => {
-  const isReminderActive = reminderAt && new Date(reminderAt) > new Date(); //*
+  const isReminderActive = reminderAt && new Date(reminderAt) > new Date(); 
 
   return (
-    <div className="border dark:border-slate-700 rounded p-4 bg-white dark:bg-slate-800 dark:text-white hover:shadow-xl transition-all ease-in-out"> {/* //* */}
+    <div className="border dark:border-slate-700 rounded p-4 bg-white dark:bg-slate-800 dark:text-white hover:shadow-xl transition-all ease-in-out"> 
       <div className="flex items-center justify-between">
         <div>
           <h6 className="text-sm font-medium">{title}</h6>
           <span className="text-xs text-green-700">{moment(date).format("Do MMM YYYY")}</span>
-          {reminderAt && ( /* //* */
+          {reminderAt && ( 
             <span className={`text-xs ml-3 font-medium flex items-center inline-flex gap-1 ${isReminderActive ? "text-orange-500" : "text-slate-400"}`}> 
               <MdAlarm /> {moment(reminderAt).format("Do MMM, h:mm A")} 
             </span> 
-          )} {/* //* */}
+          )} 
         </div>
 
         <div className="flex items-center gap-2"> 
@@ -43,11 +43,11 @@ const NoteCard = ({
           className={`icon-btn ${isPinned ? "text-[#2B85FF]" : "text-slate-600 dark:text-slate-400"}`} /* //* */
           onClick={onPinNote}
         />
-        </div> {/* //* */}
+        </div> 
       </div>
-      <p className="text-xs text-slate-600 dark:text-slate-300 mt-2">{content?.slice(0, 60)}</p> {/* //* */}
+      <p className="text-xs text-slate-600 dark:text-slate-300 mt-2">{content?.slice(0, 60)}</p>
       <div className="flex items-center justify-between mt-2">
-        <div className="text-xs text-slate-500 dark:text-slate-400"> {/* //* */}
+        <div className="text-xs text-slate-500 dark:text-slate-400"> 
           {tags.map((item, index) => ( 
             <span key={index} className="cursor-pointer hover:text-blue-500 hover:underline mr-1" onClick={() => onFilter("tag", item)}> 
               #{item} 
@@ -55,10 +55,10 @@ const NoteCard = ({
           ))} 
         </div> 
         <div className="flex items-center gap-2">
-          <MdShare //*
-            className="icon-btn hover:text-blue-500" //*
-            onClick={onShare} //*
-          /> {/* //* */}
+          <MdShare 
+            className="icon-btn hover:text-blue-500" 
+            onClick={onShare} 
+          /> 
           <MdCreate
             className="icon-btn hover:text-green-600"
             onClick={onEdit}
