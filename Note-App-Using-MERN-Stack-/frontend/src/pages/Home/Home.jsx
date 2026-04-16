@@ -154,16 +154,16 @@ const Home = () => {
       />
 
       {/* Category Chips UI */} 
-      <div className="container mx-auto px-5 mt-6"> 
-        <div className="flex items-center justify-center gap-3 overflow-x-auto no-scrollbar pb-2"> 
+      <div className="container mx-auto px-3 sm:px-4 mt-6"> 
+        <div className="flex items-center gap-2 sm:gap-3 pb-2 overflow-x-auto no-scrollbar whitespace-nowrap"> 
           {["All", "General", "Work", "Personal", "Study", "Ideas"].map((cat) => ( 
             <button 
               key={cat} 
               onClick={() => handleFilter("category", cat === "All" ? "" : cat)} 
-              className={`px-5 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${ 
+              className={`px-4 sm:px-5 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all ${ 
                 (filterParams.category === cat || (cat === "All" && !filterParams.category)) 
-                  ? "bg-blue-600 text-white shadow-sm" 
-                  : "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700" 
+                  ? "bg-blue-600 text-white shadow-md scale-105" 
+                  : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700" 
               }`} 
             > 
               {cat} 
@@ -190,9 +190,9 @@ const Home = () => {
         </div> 
       )} 
 
-      <div className="container mx-auto">
+      <div className="container mx-auto px-3 sm:px-4 min-h-[70vh] flex flex-col">
         {allNotes.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-8 max-md:m-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6 mt-8">
             {allNotes.map((note, index) => (
               <NoteCard
                 key={note._id}
@@ -235,12 +235,12 @@ const Home = () => {
         )}
       </div>
       <button
-        className="w-16 h-16 flex items-center justify-center rounded-2xl bg-[#2B85FF] hover:bg-blue-600 absolute right-10 bottom-10"
+        className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center rounded-2xl bg-[#2B85FF] hover:bg-blue-600 active:scale-95 fixed right-4 bottom-4 sm:right-10 sm:bottom-10 shadow-xl z-50 focus:outline-none transition-all duration-300"
         onClick={() => {
           setOpenAddEditModel({ isShown: true, type: "add", data: null });
         }}
       >
-        <MdAdd className="text-[32px] text-white" />
+        <MdAdd className="text-[28px] sm:text-[32px] text-white" />
       </button>
 
       <Modal 
@@ -250,7 +250,7 @@ const Home = () => {
           overlay: { backgroundColor: "rgba(0,0,0,0.5)" }, 
         }} 
         contentLabel="" 
-        className="w-[40%] max-md:w-[60%] max-sm:w-[70%] max-h-[85vh] bg-white dark:bg-slate-800 rounded-md mx-auto mt-14 p-5 overflow-y-auto transition-colors duration-300 outline-none" 
+        className="w-[90%] sm:w-[70%] md:w-[40%] max-h-[85vh] bg-white dark:bg-slate-800 rounded-md mx-auto mt-14 p-5 overflow-y-auto transition-colors duration-300 outline-none" 
       > 
         <ShareNoteModal 
           noteData={openShareModal.data} 
@@ -268,7 +268,8 @@ const Home = () => {
           },
         }}
         contentLabel=""
-        className="w-[40%] max-md:w-[60%] max-sm:w-[70%] max-h-[85vh] mx-auto mt-14 p-5 overflow-y-auto outline-none no-scrollbar" //*
+        className="w-[90%] sm:w-[70%] md:w-[40%] max-h-[85vh] mx-auto mt-14 p-5 overflow-y-auto outline-none no-scrollbar" 
+
       >
         <AddEditNotes
           onClose={() =>

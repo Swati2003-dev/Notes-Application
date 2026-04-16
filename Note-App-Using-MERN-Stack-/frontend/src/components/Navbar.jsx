@@ -19,25 +19,25 @@ const Navbar = ({ userInfo, handleClearSearch, onSearchNote }) => {
   const dispatch = useDispatch();
 
   // * Theme Setup
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light"); //*
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light"); 
 
-  useEffect(() => { //*
-    if ( //*
-      theme === "dark" || //*
-      (!("theme" in localStorage) && //*
-        window.matchMedia("(prefers-color-scheme: dark)").matches) //*
-    ) { //*
-      document.documentElement.classList.add("dark"); //*
-    } else { //*
-      document.documentElement.classList.remove("dark"); //*
-    } //*
-  }, [theme]); //*
+  useEffect(() => { 
+    if ( 
+      theme === "dark" || 
+      (!("theme" in localStorage) && 
+        window.matchMedia("(prefers-color-scheme: dark)").matches) 
+    ) { 
+      document.documentElement.classList.add("dark"); 
+    } else { 
+      document.documentElement.classList.remove("dark"); 
+    } 
+  }, [theme]); 
 
-  const toggleTheme = () => { //*
-    const newTheme = theme === "dark" ? "light" : "dark"; //*
-    setTheme(newTheme); //*
-    localStorage.setItem("theme", newTheme); //*
-  }; //*
+  const toggleTheme = () => { 
+    const newTheme = theme === "dark" ? "light" : "dark"; 
+    setTheme(newTheme); 
+    localStorage.setItem("theme", newTheme); 
+  }; 
 
   const handleSearch = () => {
     if (searchQuery) {
@@ -70,13 +70,25 @@ const Navbar = ({ userInfo, handleClearSearch, onSearchNote }) => {
     }
   };
   return (
-    <div className="bg-white dark:bg-slate-800 flex items-center justify-between px-6 py-2 drop-shadow transition-colors duration-300"> {/* //* */}
-      <Link to={"/"}>
-        <h2 className="text-xl font-medium text-black py-2">
-          <span className="text-slate-500 dark:text-slate-400">Good</span> {/* //* */}
-          <span className="text-slate-900 dark:text-white">Notes</span> {/* //* */}
-        </h2>
-      </Link>
+    <div className="bg-white dark:bg-slate-800 flex flex-col sm:flex-row items-center justify-between px-4 sm:px-6 py-3 drop-shadow transition-colors duration-300 gap-3">
+      <div className="flex items-center justify-between w-full sm:w-auto">
+        <Link to={"/"}>
+          <h2 className="text-xl font-medium text-black py-2">
+            <span className="text-slate-500 dark:text-slate-400 hidden sm:inline">Good</span>
+            <span className="text-slate-900 dark:text-white"> Notes</span>
+          </h2>
+        </Link>
+
+        <div className="flex items-center gap-3 sm:hidden">
+          <button
+            onClick={toggleTheme}
+            className="w-9 h-9 rounded-full flex justify-center items-center bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
+          >
+            {theme === "dark" ? <MdLightMode size={20} /> : <MdDarkMode size={20} />}
+          </button>
+          <ProfileInfo userInfo={userInfo} onLogout={onLogout} />
+        </div>
+      </div>
 
       <SearchBar
         value={searchQuery}
@@ -85,13 +97,13 @@ const Navbar = ({ userInfo, handleClearSearch, onSearchNote }) => {
         onClearSearch={onClearSearch}
       />
 
-      <div className="flex items-center gap-4"> 
-        <button 
-          onClick={toggleTheme} 
-          className="w-10 h-10 rounded-full flex justify-center items-center bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors" 
-        > 
-          {theme === "dark" ? <MdLightMode size={24} /> : <MdDarkMode size={24} />} 
-        </button> 
+      <div className="hidden sm:flex items-center gap-4">
+        <button
+          onClick={toggleTheme}
+          className="w-10 h-10 rounded-full flex justify-center items-center bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
+        >
+          {theme === "dark" ? <MdLightMode size={24} /> : <MdDarkMode size={24} />}
+        </button>
         <ProfileInfo userInfo={userInfo} onLogout={onLogout} />
       </div>
     </div>

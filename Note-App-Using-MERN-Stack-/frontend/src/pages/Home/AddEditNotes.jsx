@@ -408,7 +408,7 @@ const AddEditNotes = ({ onClose, noteData, type, getAllNotes }) => {
       (import.meta.env.VITE_BACKEND_URL || "http://localhost:3000") + "",
       { forceNew: true, withCredentials: true, transports: ["websocket"] }
     );
-    socketRef.current.on("connect", () => toast.success("Socket connected perfectly!"));
+    socketRef.current.on("connect", () => toast.success("Note Shared Successfully"));
     socketRef.current.on("connect_error", (err) => toast.error(`Socket Blocked: ${err.message}`));
     socketRef.current.emit("join-note", noteData._id);
     socketRef.current.on("receive-changes", (newPayload) => {
@@ -473,7 +473,7 @@ const AddEditNotes = ({ onClose, noteData, type, getAllNotes }) => {
   };
 
   const fieldClass = `
-    w-full text-sm outline-none transition-all duration-200 rounded-xl px-3 py-2.5
+    w-full text-xs sm:text-sm md:text-base outline-none transition-all duration-200 rounded-xl px-3 sm:px-4 py-2 sm:py-3
     bg-slate-100 dark:bg-white/[0.04]
     border border-slate-200 dark:border-white/[0.08]
     text-slate-800 dark:text-white/85
@@ -484,7 +484,7 @@ const AddEditNotes = ({ onClose, noteData, type, getAllNotes }) => {
   `;
 
   const labelClass = `
-    text-[10px] font-bold tracking-[0.14em] uppercase mb-1.5 block
+    text-[9px] sm:text-[10px] md:text-[11px] font-bold tracking-[0.14em] uppercase mb-1.5 block
     text-indigo-500 dark:text-indigo-400/80
   `;
 
@@ -535,14 +535,14 @@ const AddEditNotes = ({ onClose, noteData, type, getAllNotes }) => {
       </div>
 
       {/* ── Body ── */}
-      <div className="px-5 pt-4 pb-3 flex flex-col gap-3.5">
+      <div className="px-4 sm:px-6 pt-4 sm:pt-6 pb-3 sm:pb-5 flex flex-col gap-3.5">
 
         {/* Title */}
         <div>
           <label className={labelClass}>Title</label>
           <input
             type="text"
-            className={`${fieldClass} text-base font-semibold`}
+            className={`${fieldClass} text-base sm:text-lg md:text-xl font-semibold`}
             placeholder="Note title..."
             value={title}
             onChange={({ target }) => {

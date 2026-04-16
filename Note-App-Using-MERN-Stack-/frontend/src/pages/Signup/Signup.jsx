@@ -67,13 +67,13 @@ const Signup = () => {
       <div className="absolute bottom-[-80px] left-[-80px] w-[380px] h-[380px] rounded-full bg-indigo-500/15 blur-[100px] pointer-events-none" />
 
       {/* Card */}
-      <div className="relative z-10 w-full max-w-md bg-white/[0.04] border border-white/[0.08] rounded-2xl px-10 py-12 shadow-[0_32px_80px_rgba(0,0,0,0.6)] backdrop-blur-xl">
+      <div className="relative z-10 w-full max-w-md bg-white/[0.04] border border-white/[0.08] rounded-2xl px-6 sm:px-10 py-8 sm:py-12 shadow-[0_32px_80px_rgba(0,0,0,0.6)] backdrop-blur-xl">
 
         {/* Header */}
         <p className="text-purple-400 text-[11px] font-semibold tracking-[0.18em] uppercase mb-2">
           Get started
         </p>
-        <h4 className="text-3xl font-semibold text-white/90 mb-8 leading-snug">
+        <h4 className="text-2xl sm:text-3xl font-semibold text-white/90 mb-8 leading-snug">
           Create your{" "}
           <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
             free account
@@ -84,7 +84,7 @@ const Signup = () => {
 
           {/* Name */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-[11px] font-medium text-white/40 tracking-wide uppercase">
+            <label className="text-[10px] sm:text-[11px] font-medium text-white/40 tracking-wide uppercase">
               Full name
             </label>
             <input
@@ -98,7 +98,7 @@ const Signup = () => {
 
           {/* Email */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-[11px] font-medium text-white/40 tracking-wide uppercase">
+            <label className="text-[10px] sm:text-[11px] font-medium text-white/40 tracking-wide uppercase">
               Email address
             </label>
             <input
@@ -112,7 +112,7 @@ const Signup = () => {
 
           {/* Password */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-[11px] font-medium text-white/40 tracking-wide uppercase">
+            <label className="text-[10px] sm:text-[11px] font-medium text-white/40 tracking-wide uppercase">
               Password
             </label>
             <PasswordInput
