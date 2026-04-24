@@ -155,7 +155,7 @@ const Home = () => {
 
       {/* Category Chips UI */} 
       <div className="container mx-auto px-3 sm:px-4 mt-6"> 
-        <div className="flex items-center gap-2 sm:gap-3 pb-2 overflow-x-auto no-scrollbar whitespace-nowrap"> 
+        <div className="flex items-center justify-center gap-2 sm:gap-3 pb-2 overflow-x-auto no-scrollbar whitespace-nowrap"> 
           {["All", "General", "Work", "Personal", "Study", "Ideas"].map((cat) => ( 
             <button 
               key={cat} 

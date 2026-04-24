@@ -36,7 +36,7 @@ const ReminderTracker = ({ notes, getAllNotes }) => {
 
     // Check immediately and then every 1 second for exact precision 
     checkReminders(); 
-    const interval = setInterval(checkReminders, 1000); //* 
+    const interval = setInterval(checkReminders, 1000);  
     return () => clearInterval(interval); 
   }, [notes]); 
 
