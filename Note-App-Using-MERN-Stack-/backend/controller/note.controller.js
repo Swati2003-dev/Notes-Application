@@ -3,7 +3,10 @@ import User from "../models/user.model.js";
 import { errorHandler } from "../utils/error.js";
 
 export const addNote = async (req, res, next) => {
-  const { title, content, tags, category, reminderAt } = req.body; 
+  let { title, content, tags, category, reminderAt } = req.body; 
+  if (typeof tags === 'string') {
+    try { tags = JSON.parse(tags); } catch (e) { tags = tags.split(','); }
+  }
 
   const { id } = req.user;
 
@@ -15,6 +18,14 @@ export const addNote = async (req, res, next) => {
   }
 
   try {
+    let attachmentUrl = null;
+    let attachmentName = null;
+    
+    if (req.file) {
+      attachmentUrl = `/uploads/${req.file.filename}`;
+      attachmentName = req.file.originalname;
+    }
+
     const note = new Note({
       title,
       content,
@@ -22,6 +33,8 @@ export const addNote = async (req, res, next) => {
       reminderAt: reminderAt || null, 
       tags: tags || [],
       userId: id,
+      attachmentUrl,
+      attachmentName,
     });
     await note.save();
 
@@ -45,9 +58,12 @@ export const editNote = async (req, res, next) => {
     return next(errorHandler(401, "You are not an owner or collaborator of this note!")); 
   }
 
-  const { title, content, tags, isPinned, category, reminderAt } = req.body; 
+  let { title, content, tags, isPinned, category, reminderAt } = req.body; 
+  if (typeof tags === 'string') {
+    try { tags = JSON.parse(tags); } catch (e) { tags = tags.split(','); }
+  }
 
-  if (!title && !content && !tags && !category && reminderAt === undefined) { 
+  if (!title && !content && !tags && !category && reminderAt === undefined && !req.file) { 
     return next(errorHandler(404, "No changes provided "));
   }
 
@@ -70,6 +86,10 @@ export const editNote = async (req, res, next) => {
     if (reminderAt !== undefined) { 
       note.reminderAt = reminderAt; 
     } 
+    if (req.file) {
+      note.attachmentUrl = `/uploads/${req.file.filename}`;
+      note.attachmentName = req.file.originalname;
+    }
     await note.save();
 
     res.status(200).json({

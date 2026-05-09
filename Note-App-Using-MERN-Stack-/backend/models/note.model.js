@@ -29,6 +29,14 @@ const noteSchema=new mongoose.Schema({
         type:Boolean,
         default:false
     },
+    attachmentUrl: {
+        type: String,
+        default: null
+    },
+    attachmentName: {
+        type: String,
+        default: null
+    },
     userId:{
         type:String,
         required:true

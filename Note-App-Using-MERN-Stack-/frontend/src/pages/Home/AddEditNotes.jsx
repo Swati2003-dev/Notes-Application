@@ -22,7 +22,7 @@
 //     if (type !== "edit" || !noteData?._id) return;
 
 //     socketRef.current = io(
-//       (import.meta.env.VITE_BACKEND_URL || "http://localhost:3000") + "",
+//       (import.meta.env.VITE_BACKEND_URL || "http://localhost:3001") + "",
 //       { forceNew: true, withCredentials: true, transports: ["websocket"] },
 //     );
 
@@ -52,7 +52,7 @@
 //     if (type !== "edit" || !noteData?._id) return;
 //     try {
 //       await axios.post(
-//         `${import.meta.env.VITE_BACKEND_URL || "http://localhost:3000"}/api/note/edit/${noteData._id}`,
+//         `${import.meta.env.VITE_BACKEND_URL || "http://localhost:3001"}/api/note/edit/${noteData._id}`,
 //         {
 //           title: currentTitle,
 //           content: currentContent,
@@ -80,7 +80,7 @@
 //   const editNote = async () => {
 //     try {
 //       const res = await axios.post(
-//         `${import.meta.env.VITE_BACKEND_URL || "http://localhost:3000"}/api/note/edit/${noteData._id}`,
+//         `${import.meta.env.VITE_BACKEND_URL || "http://localhost:3001"}/api/note/edit/${noteData._id}`,
 //         { title, content, tags, category, reminderAt },
 //         { withCredentials: true },
 //       );
@@ -101,7 +101,7 @@
 //   const addNewNote = async () => {
 //     try {
 //       const res = await axios.post(
-//         `${import.meta.env.VITE_BACKEND_URL || "http://localhost:3000"}/api/note/add`,
+//         `${import.meta.env.VITE_BACKEND_URL || "http://localhost:3001"}/api/note/add`,
 //         { title, content, tags, category, reminderAt },
 //         { withCredentials: true },
 //       );
@@ -132,7 +132,7 @@
 //     type === "edit" ? editNote() : addNewNote();
 //   };
 
-//   // Shared field styles — theme aware
+//   // Shared field styles â€” theme aware
 //   const fieldClass = `
 //     w-full text-[15px] outline-none transition-all duration-200 rounded-xl px-4 py-3
 //     bg-slate-100 dark:bg-white/[0.04]
@@ -161,7 +161,7 @@
 //       {/* Top accent bar */}
 //       <div className="h-[3px] w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500" />
 
-//       {/* ── Header ── */}
+//       {/* â”€â”€ Header â”€â”€ */}
 //       <div
 //         className="
 //         flex items-center justify-between px-6 pt-5 pb-4
@@ -221,7 +221,7 @@
 //         </button>
 //       </div>
 
-//       {/* ── Body ── */}
+//       {/* â”€â”€ Body â”€â”€ */}
 //       <div className="px-6 py-5 flex flex-col gap-5">
 //         {/* Title */}
 //         <div>
@@ -269,7 +269,7 @@
 //           />
 //         </div>
 
-//         {/* Category + Reminder — 2 columns */}
+//         {/* Category + Reminder â€” 2 columns */}
 //         <div className="grid grid-cols-2 gap-4">
 //           {/* Category */}
 //           <div>
@@ -297,7 +297,7 @@
 //             </select>
 //           </div>
 
-//           {/* Reminder — hide the inner label from ReminderInput, show ours */}
+//           {/* Reminder â€” hide the inner label from ReminderInput, show ours */}
 //           <div>
 //             <label className={labelClass}>Reminder</label>
 //             {/*
@@ -364,7 +364,7 @@
 //         )}
 //       </div>
 
-//       {/* ── Footer ── */}
+//       {/* â”€â”€ Footer â”€â”€ */}
 //       <div className="px-6 pb-6">
 //         <button
 //           className="w-full py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-[15px] font-semibold tracking-wide shadow-[0_4px_20px_rgba(99,102,241,0.4)] hover:shadow-[0_8px_30px_rgba(99,102,241,0.55)] hover:-translate-y-0.5 hover:brightness-110 active:scale-[0.99] transition-all duration-200 cursor-pointer"
@@ -397,6 +397,7 @@ const AddEditNotes = ({ onClose, noteData, type, getAllNotes }) => {
   const [tags, setTags] = useState(noteData?.tags || []);
   const [category, setCategory] = useState(noteData?.category || "General");
   const [reminderAt, setReminderAt] = useState(noteData?.reminderAt || null);
+  const [attachment, setAttachment] = useState(null);
   const [error, setError] = useState(null);
 
   const socketRef = useRef(null);
@@ -405,7 +406,7 @@ const AddEditNotes = ({ onClose, noteData, type, getAllNotes }) => {
   useEffect(() => {
     if (type !== "edit" || !noteData?._id) return;
     socketRef.current = io(
-      (import.meta.env.VITE_BACKEND_URL || "http://localhost:3000") + "",
+      (import.meta.env.VITE_BACKEND_URL || "http://localhost:3001") + "",
       { forceNew: true, withCredentials: true, transports: ["websocket"] }
     );
     socketRef.current.on("connect", () => toast.success("Note Shared Successfully"));
@@ -424,7 +425,7 @@ const AddEditNotes = ({ onClose, noteData, type, getAllNotes }) => {
     if (type !== "edit" || !noteData?._id) return;
     try {
       await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL || "http://localhost:3000"}/api/note/edit/${noteData._id}`,
+        `${import.meta.env.VITE_BACKEND_URL || "http://localhost:3001"}/api/note/edit/${noteData._id}`,
         { title: currentTitle, content: currentContent, tags, category, reminderAt },
         { withCredentials: true }
       );
@@ -443,10 +444,18 @@ const AddEditNotes = ({ onClose, noteData, type, getAllNotes }) => {
 
   const editNote = async () => {
     try {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("content", content);
+      formData.append("category", category);
+      formData.append("tags", JSON.stringify(tags));
+      if (reminderAt) formData.append("reminderAt", reminderAt);
+      if (attachment) formData.append("attachment", attachment);
+
       const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL || "http://localhost:3000"}/api/note/edit/${noteData._id}`,
-        { title, content, tags, category, reminderAt },
-        { withCredentials: true }
+        `${import.meta.env.VITE_BACKEND_URL || "http://localhost:3001"}/api/note/edit/${noteData._id}`,
+        formData,
+        { withCredentials: true, headers: { "Content-Type": "multipart/form-data" } }
       );
       if (res.data.success === false) { setError(res.data.message); toast.error(res.data.message); return; }
       toast.success(res.data.message); getAllNotes(); onClose();
@@ -455,10 +464,18 @@ const AddEditNotes = ({ onClose, noteData, type, getAllNotes }) => {
 
   const addNewNote = async () => {
     try {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("content", content);
+      formData.append("category", category);
+      formData.append("tags", JSON.stringify(tags));
+      if (reminderAt) formData.append("reminderAt", reminderAt);
+      if (attachment) formData.append("attachment", attachment);
+
       const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL || "http://localhost:3000"}/api/note/add`,
-        { title, content, tags, category, reminderAt },
-        { withCredentials: true }
+        `${import.meta.env.VITE_BACKEND_URL || "http://localhost:3001"}/api/note/add`,
+        formData,
+        { withCredentials: true, headers: { "Content-Type": "multipart/form-data" } }
       );
       if (res.data.success === false) { setError(res.data.message); toast.error(res.data.message); return; }
       toast.success(res.data.message); getAllNotes(); onClose();
@@ -499,7 +516,7 @@ const AddEditNotes = ({ onClose, noteData, type, getAllNotes }) => {
       {/* Top accent bar */}
       <div className="h-[3px] w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500" />
 
-      {/* ── Header ── */}
+      {/* â”€â”€ Header â”€â”€ */}
       <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-slate-100 dark:border-white/[0.06]">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-xl bg-indigo-500/10 border border-indigo-500/25 flex items-center justify-center flex-shrink-0">
@@ -534,7 +551,7 @@ const AddEditNotes = ({ onClose, noteData, type, getAllNotes }) => {
         </button>
       </div>
 
-      {/* ── Body ── */}
+      {/* â”€â”€ Body â”€â”€ */}
       <div className="px-4 sm:px-6 pt-4 sm:pt-6 pb-3 sm:pb-5 flex flex-col gap-3.5">
 
         {/* Title */}
@@ -639,6 +656,19 @@ const AddEditNotes = ({ onClose, noteData, type, getAllNotes }) => {
           </div>
         </div>
 
+        {/* Attachment */}
+        <div>
+          <label className={labelClass}>Attachment</label>
+          <input
+            type="file"
+            className={`${fieldClass} text-xs sm:text-sm py-2 cursor-pointer`}
+            onChange={(e) => setAttachment(e.target.files[0])}
+          />
+          {noteData?.attachmentName && !attachment && (
+            <p className="text-xs text-indigo-500 mt-1">Current file: {noteData.attachmentName}</p>
+          )}
+        </div>
+
         {/* Error */}
         {error && (
           <p className="text-red-500 dark:text-red-400 text-xs bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-xl px-3 py-2.5">
@@ -647,7 +677,7 @@ const AddEditNotes = ({ onClose, noteData, type, getAllNotes }) => {
         )}
       </div>
 
-      {/* ── Footer ── */}
+      {/* â”€â”€ Footer â”€â”€ */}
       <div className="px-5 pb-5">
         <button
           className="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-semibold tracking-wide shadow-[0_4px_16px_rgba(99,102,241,0.4)] hover:shadow-[0_8px_24px_rgba(99,102,241,0.55)] hover:-translate-y-0.5 hover:brightness-110 active:scale-[0.99] transition-all duration-200 cursor-pointer"

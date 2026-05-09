@@ -13,7 +13,9 @@ const NoteCard = ({
   date,
   category, 
   reminderAt, 
-  onFilter, 
+  onFilter,
+  attachmentUrl,
+  attachmentName,
 }) => {
   const isReminderActive = reminderAt && new Date(reminderAt) > new Date(); 
 
@@ -50,6 +52,22 @@ const NoteCard = ({
       <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-normal mt-3 leading-relaxed">
         {content?.slice(0, 80)}...
       </p>
+      
+      {attachmentName && (
+        <div className="mt-3">
+          <a
+            href={`${import.meta.env.VITE_BACKEND_URL || "http://localhost:3001"}${attachmentUrl}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-xs text-indigo-600 dark:text-indigo-400 hover:underline bg-indigo-50 dark:bg-indigo-900/20 px-2.5 py-1.5 rounded-lg transition-colors"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+            </svg>
+            <span className="truncate max-w-[200px]">{attachmentName}</span>
+          </a>
+        </div>
+      )}
       <div className="flex items-center justify-between mt-4">
         <div className="text-[10px] sm:text-[11px] text-slate-400 dark:text-slate-500 flex flex-wrap gap-1">
           {tags.map((item, index) => (

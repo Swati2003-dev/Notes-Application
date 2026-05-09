@@ -22,7 +22,7 @@ const ForgotPassword = () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        (import.meta.env.VITE_BACKEND_URL || "http://localhost:3000") +
+        (import.meta.env.VITE_BACKEND_URL || "http://localhost:3001") +
           "/api/auth/forgot-password",
         { email },
         { withCredentials: true }

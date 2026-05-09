@@ -14,7 +14,7 @@ const ShareNoteModal = ({ noteData, onClose, getAllNotes }) => {
     }
     try {
       const res = await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL || "http://localhost:3000"}/api/note/share-note/${noteData._id}`,
+        `${import.meta.env.VITE_BACKEND_URL || "http://localhost:3001"}/api/note/share-note/${noteData._id}`,
         { email },
         { withCredentials: true }
       );

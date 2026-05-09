@@ -50,17 +50,17 @@ const ReminderTracker = ({ notes, getAllNotes }) => {
     // 2. Native Notification
     if (Notification.permission === "granted") { 
       new Notification("Reminder!", { 
-        body: `⏰ ${note.title}\n${note.content?.slice(0, 30)}...`, 
+        body: `â° ${note.title}\n${note.content?.slice(0, 30)}...`, 
       }); 
     } else { 
       // Fallback 
-      alert(`⏰ Reminder: ${note.title}`); 
+      alert(`â° Reminder: ${note.title}`); 
     } 
 
     // 3. UI Toast with Snooze
     toast( 
       <div> 
-        <p className="font-bold text-slate-800">⏰ Reminder: {note.title}</p> 
+        <p className="font-bold text-slate-800">â° Reminder: {note.title}</p> 
         <button  
           onClick={() => handleSnooze(note)}  
           className="mt-2 bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 transition-colors" 
@@ -78,7 +78,7 @@ const ReminderTracker = ({ notes, getAllNotes }) => {
       snoozeTime.setMinutes(snoozeTime.getMinutes() + 5); 
 
       await axios.post( 
-        `${import.meta.env.VITE_BACKEND_URL || "http://localhost:3000"}/api/note/edit/${note._id}`, 
+        `${import.meta.env.VITE_BACKEND_URL || "http://localhost:3001"}/api/note/edit/${note._id}`, 
         { reminderAt: snoozeTime.toISOString() }, 
         { withCredentials: true } 
       ); 
