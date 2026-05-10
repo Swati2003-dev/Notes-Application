@@ -22,7 +22,7 @@ export const addNote = async (req, res, next) => {
     let attachmentName = null;
     
     if (req.file) {
-      attachmentUrl = `/uploads/${req.file.filename}`;
+      attachmentUrl = req.file.path; // Cloudinary returns the full secure URL in path
       attachmentName = req.file.originalname;
     }
 
@@ -87,7 +87,7 @@ export const editNote = async (req, res, next) => {
       note.reminderAt = reminderAt; 
     } 
     if (req.file) {
-      note.attachmentUrl = `/uploads/${req.file.filename}`;
+      note.attachmentUrl = req.file.path;
       note.attachmentName = req.file.originalname;
     }
     await note.save();

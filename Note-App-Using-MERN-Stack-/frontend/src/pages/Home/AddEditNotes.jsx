@@ -409,8 +409,8 @@ const AddEditNotes = ({ onClose, noteData, type, getAllNotes }) => {
       (import.meta.env.VITE_BACKEND_URL || "http://localhost:3001") + "",
       { forceNew: true, withCredentials: true, transports: ["websocket"] }
     );
-    socketRef.current.on("connect", () => toast.success("Note Shared Successfully"));
-    socketRef.current.on("connect_error", (err) => toast.error(`Socket Blocked: ${err.message}`));
+    socketRef.current.on("connect", () => console.log("Connected to live edit socket"));
+    socketRef.current.on("connect_error", (err) => console.error(`Socket Blocked: ${err.message}`));
     socketRef.current.emit("join-note", noteData._id);
     socketRef.current.on("receive-changes", (newPayload) => {
       isExternalChange.current = true;

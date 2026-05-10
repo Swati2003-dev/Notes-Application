@@ -58,18 +58,18 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#09090f] flex items-center justify-center px-4 relative overflow-hidden">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#09090f] flex items-center justify-center px-4 relative overflow-hidden transition-colors duration-300">
       {/* Ambient glow orbs */}
-      <div className="absolute top-[-120px] right-[-80px] w-[420px] h-[420px] rounded-full bg-purple-600/20 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-80px] left-[-80px] w-[360px] h-[360px] rounded-full bg-indigo-500/15 blur-[100px] pointer-events-none" />
+      <div className="absolute top-[-120px] right-[-80px] w-[420px] h-[420px] rounded-full bg-purple-400/20 dark:bg-purple-600/20 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-80px] left-[-80px] w-[360px] h-[360px] rounded-full bg-indigo-400/20 dark:bg-indigo-500/15 blur-[100px] pointer-events-none" />
 
       {/* Card */}
-      <div className="relative z-10 w-full max-w-md bg-white/[0.04] border border-white/[0.08] rounded-2xl px-10 py-12 shadow-[0_32px_80px_rgba(0,0,0,0.6)] backdrop-blur-xl">
+      <div className="relative z-10 w-full max-w-md bg-white/60 dark:bg-white/[0.04] border border-white/40 dark:border-white/[0.08] rounded-2xl px-10 py-12 shadow-xl dark:shadow-[0_32px_80px_rgba(0,0,0,0.6)] backdrop-blur-xl transition-colors duration-300">
         {/* Icon */}
-        <div className="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-6">
+        <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-500/10 border border-purple-200 dark:border-purple-500/20 flex items-center justify-center mb-6">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="w-5 h-5 text-purple-400"
+            className="w-5 h-5 text-purple-500 dark:text-purple-400"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -84,16 +84,16 @@ const ResetPassword = () => {
         </div>
 
         {/* Header */}
-        <p className="text-purple-400 text-[11px] font-semibold tracking-[0.18em] uppercase mb-2">
+        <p className="text-purple-500 dark:text-purple-400 text-[11px] font-semibold tracking-[0.18em] uppercase mb-2">
           Almost there
         </p>
-        <h4 className="text-3xl font-semibold text-white/90 mb-3 leading-snug">
+        <h4 className="text-3xl font-semibold text-slate-800 dark:text-white/90 mb-3 leading-snug">
           Reset your{" "}
-          <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-indigo-500 to-purple-500 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">
             password
           </span>
         </h4>
-        <p className="text-sm text-white/35 mb-8 leading-relaxed">
+        <p className="text-sm text-slate-500 dark:text-white/35 mb-8 leading-relaxed">
           Please enter your new password below. Make sure it's strong and
           memorable.
         </p>
@@ -101,7 +101,7 @@ const ResetPassword = () => {
         <form onSubmit={handleResetPassword} className="flex flex-col gap-4">
           {/* New Password */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-[11px] font-medium text-white/40 tracking-wide uppercase">
+            <label className="text-[11px] font-medium text-slate-500 dark:text-white/40 tracking-wide uppercase">
               New password
             </label>
             <PasswordInput
@@ -113,7 +113,7 @@ const ResetPassword = () => {
 
           {/* Confirm Password */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-[11px] font-medium text-white/40 tracking-wide uppercase">
+            <label className="text-[11px] font-medium text-slate-500 dark:text-white/40 tracking-wide uppercase">
               Confirm password
             </label>
             <PasswordInput
@@ -125,7 +125,7 @@ const ResetPassword = () => {
 
           {/* Error */}
           {error && (
-            <p className="text-red-400 text-xs bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2.5">
+            <p className="text-red-500 dark:text-red-400 text-xs bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-lg px-3 py-2.5">
               {error}
             </p>
           )}
@@ -134,7 +134,7 @@ const ResetPassword = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full mt-1 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-medium tracking-wide shadow-[0_4px_20px_rgba(99,102,241,0.4)] hover:shadow-[0_8px_30px_rgba(99,102,241,0.55)] hover:-translate-y-0.5 hover:brightness-110 active:scale-[0.99] transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-[0_4px_20px_rgba(99,102,241,0.4)] disabled:hover:brightness-100"
+            className="w-full mt-1 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 dark:from-indigo-600 dark:to-purple-600 text-white text-sm font-medium tracking-wide shadow-md dark:shadow-[0_4px_20px_rgba(99,102,241,0.4)] hover:shadow-lg dark:hover:shadow-[0_8px_30px_rgba(99,102,241,0.55)] hover:-translate-y-0.5 hover:brightness-110 active:scale-[0.99] transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none dark:disabled:hover:shadow-[0_4px_20px_rgba(99,102,241,0.4)] disabled:hover:brightness-100"
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">
@@ -166,15 +166,15 @@ const ResetPassword = () => {
           </button>
 
           {/* Divider */}
-          <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-1" />
+          <div className="h-px bg-gradient-to-r from-transparent via-slate-200 dark:via-white/10 to-transparent my-1" />
 
           {/* Back to login */}
-          <p className="text-center text-xs text-white/35">
+          <p className="text-center text-xs text-slate-500 dark:text-white/35">
             <Link
               to="/login"
-              className="text-indigo-400 font-medium hover:text-indigo-300 hover:underline transition-colors"
+              className="text-indigo-500 dark:text-indigo-400 font-medium hover:text-indigo-600 dark:hover:text-indigo-300 hover:underline transition-colors"
             >
-              â† Back to Sign in
+              ← Back to Sign in
             </Link>
           </p>
         </form>

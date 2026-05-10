@@ -50,17 +50,17 @@ const ReminderTracker = ({ notes, getAllNotes }) => {
     // 2. Native Notification
     if (Notification.permission === "granted") { 
       new Notification("Reminder!", { 
-        body: `â° ${note.title}\n${note.content?.slice(0, 30)}...`, 
+        body: `⏰ ${note.title}\n${note.content?.slice(0, 30)}...`, 
       }); 
     } else { 
       // Fallback 
-      alert(`â° Reminder: ${note.title}`); 
+      alert(`⏰ Reminder: ${note.title}`); 
     } 
 
     // 3. UI Toast with Snooze
     toast( 
       <div> 
-        <p className="font-bold text-slate-800">â° Reminder: {note.title}</p> 
+        <p className="font-bold text-slate-800">⏰ Reminder: {note.title}</p> 
         <button  
           onClick={() => handleSnooze(note)}  
           className="mt-2 bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 transition-colors" 
