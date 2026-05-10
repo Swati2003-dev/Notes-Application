@@ -122,7 +122,7 @@ export const forgotPassword = async (req, res, next) => {
 
       res.status(200).json({
         success: true,
-        message: "Token sent to email!",
+        message: "Please check your inbox for the reset link.",
       });
     } catch (err) {
       user.resetPasswordToken = undefined;
