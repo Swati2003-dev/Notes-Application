@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
-import http from "http"; //*
-import { Server } from "socket.io"; //*
+import http from "http"; 
+import { Server } from "socket.io"; 
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -48,9 +48,6 @@ io.on("connection", (socket) => {
     console.log("Socket disconnected:", socket.id); 
   }); 
 }); 
-// server.listen(3000, () => { 
-//   console.log("Server is running");
-// });
 
 const PORT=process.env.PORT || 3000;
 server.listen(PORT,()=>{
